@@ -88,7 +88,7 @@ def main(verbosity=False):
     error_threshold = st.slider("Error Treshold (y - y_pred) or (theta)", 1., 10., value=5.)
     epsilon = st.slider("Slope of the lines above the error treshold", 0.000001, 0.1, value=0.0001)
     lam = st.slider("Regularization Multiplier for L2 beta (lam)", 0.001, 1., value=0.1)
-    alpha = st.slider("Learning rate (alpha)", 0.00000001, 0.0001, value=0.0000003)
+    alpha = st.slider("Learning rate (alpha)", 0.000_001, 0.0001, value=0.000_01)
     n_max_iter = st.slider("Maximum iteration number", 100, 10_000_000, value=2000)
     beta, error, mse = reg(df['MedInc'].values, df['Price'].values, error_threshold=error_threshold, epsilon=epsilon, lam=lam,
                       alpha=alpha, n_max_iter=n_max_iter, verbose=verbosity)
@@ -134,7 +134,7 @@ def reg(x, y, error_threshold, epsilon, lam, alpha, n_max_iter, verbose=False):
                 g_b0 = -epsilon + (2 * lam * beta[0])
                 g_b1 = -epsilon + (2 * lam * beta[1])
 
-            elif ((_y - y_pred) <= error_threshold):
+            elif ((_y - y_pred) <= -error_threshold):
 
                 g_b0 = epsilon + (2 * lam * beta[0])
                 g_b1 = epsilon + (2 * lam * beta[1])
@@ -151,7 +151,7 @@ def reg(x, y, error_threshold, epsilon, lam, alpha, n_max_iter, verbose=False):
             MSE += sqrt((_y - y_pred) ** 2) / len(y)
             if (_y - y_pred) >= error_threshold:
                 err += epsilon * (_y - y_pred) + (error_threshold**2 - (error_threshold * epsilon))
-            elif (_y - y_pred) <= - error_threshold:
+            elif (_y - y_pred) <= -error_threshold:
                 err += -epsilon * (_y - y_pred) + (error_threshold**2 - (error_threshold * epsilon))
             else:
                 err += (_y - y_pred) ** 2
