@@ -152,7 +152,7 @@ def reg(x, y, error_threshold, epsilon, lam, alpha, n_max_iter, verbose=False):
             if (_y - y_pred) >= error_threshold:
                 err += epsilon * (_y - y_pred) + (error_threshold**2 - (error_threshold * epsilon))
             elif (_y - y_pred) <= - error_threshold:
-                err += -epsilon * (_y - y_pred) + (error_threshold*22 - (error_threshold * epsilon))
+                err += -epsilon * (_y - y_pred) + (error_threshold**2 - (error_threshold * epsilon))
             else:
                 err += (_y - y_pred) ** 2
 
